@@ -5,9 +5,9 @@ ALTER TABLE CM_PURPOSE
 
 CREATE ALIAS IF NOT EXISTS DROP_FK AS $$ void executeSql(Connection conn, String sql) throws SQLException { conn.createStatement().executeUpdate(sql); } $$;
 call drop_fk('ALTER TABLE CM_PURPOSE DROP CONSTRAINT ' || (SELECT CONSTRAINT_NAME
-                                                           FROM INFORMATION_SCHEMA.CONSTRAINTS
+                                                           FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
                                                            WHERE TABLE_NAME = 'CM_PURPOSE'
-                                                             AND COLUMN_LIST = 'NAME,TENANT_ID'));
+                                                             AND CONSTRAINT_TYPE = 'UNIQUE'));
 DROP ALIAS IF EXISTS DROP_FK;
 
 ALTER TABLE CM_PURPOSE
